@@ -119,6 +119,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (userResponse == null) {
                     Toast.makeText(RegisterActivity.this, "Register Failure", Toast.LENGTH_SHORT).show();
                 } else {
+                    loginManager.setid(userResponse.getUser().get_id());
                     Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_LONG).show();
                     Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(i);

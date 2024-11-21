@@ -16,6 +16,7 @@ import com.example.goeco_amazon.interfaces.PickuppointOnClick;
 import com.example.goeco_amazon.interfaces.ProductBuyOnClick;
 import com.example.goeco_amazon.models.PickupPointModel;
 import com.example.goeco_amazon.models.ProductModel;
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class ProductListRecyclerAdapter extends RecyclerView.Adapter<ProductList
     @Override
     public void onBindViewHolder(@NonNull ProductListRecyclerAdapter.MyViewHolder holder, int position) {
 
+
         ProductModel pointModel = responses.get(position);
         holder.name.setText(responses.get(position).getName());
         holder.price.setText("Rs."+ responses.get(position).getPrice());
@@ -48,7 +50,8 @@ public class ProductListRecyclerAdapter extends RecyclerView.Adapter<ProductList
         holder.buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                productBuyOnClick.onclick(pointModel);
+                int quantity = Integer.parseInt(holder.quantity.getText().toString());
+                productBuyOnClick.onclick(pointModel,quantity);
             }
         });
         holder.add.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +86,8 @@ public class ProductListRecyclerAdapter extends RecyclerView.Adapter<ProductList
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name,price,quantity;
-        Button buy,add,minus;
+        Button buy;
+        MaterialButton add,minus;
         ImageView imageView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

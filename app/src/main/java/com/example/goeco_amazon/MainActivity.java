@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +23,9 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.goeco_amazon.activities.PickupMetricsActivity;
 import com.example.goeco_amazon.adapters.ImageSliderAdapter;
+import com.example.goeco_amazon.fragments.DeliveryFragment;
+import com.example.goeco_amazon.fragments.HomeFragment;
+import com.example.goeco_amazon.fragments.ProfileFragment;
 import com.example.goeco_amazon.models.PickupPointModel;
 import com.example.goeco_amazon.responsemodels.NearbyPickupResponse;
 import com.example.goeco_amazon.viewmodels.NearbyPickupViewModel;
@@ -50,16 +53,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment selectedFragment = null;
-                switch (item.getItemId()) {
-                    case R.id.nav_home:
-                        selectedFragment = new HomeFragment();
-                        break;
-                    case R.id.nav_delivery:
-                        selectedFragment = new DeliveryFragment();
-                        break;
-                    case R.id.nav_profile:
-                        selectedFragment = new ProfileFragment();
-                        break;
+                int id = item.getItemId();
+                if (id == R.id.nav_home){
+                    selectedFragment = new HomeFragment();
+                }
+                if (id == R.id.nav_delivery){
+                    selectedFragment = new DeliveryFragment();
+                }
+                if (id == R.id.nav_profile){
+                    selectedFragment = new ProfileFragment();
                 }
                 return loadFragment(selectedFragment);
             }

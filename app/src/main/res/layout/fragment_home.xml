@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+<!-- Location Selector -->
+<LinearLayout
+    android:id="@+id/location_selector"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#AFEEEE"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/baseline_location_on_24"/>
+
+    <TextView
+        android:id="@+id/location_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="10dp"
+        android:text="Add an Address"/>
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/baseline_arrow_drop_down_24"/>
+</LinearLayout>
+
+<!-- Image Slider -->
+<androidx.viewpager2.widget.ViewPager2
+    android:id="@+id/image_slider"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"/>
+
+<!-- Trending Deals -->
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Trending Deals of the week"
+    android:textStyle="bold"
+    android:textSize="18sp"
+    android:padding="10dp"/>
+
+<!-- Products RecyclerView -->
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/products_recycler"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+</LinearLayout>

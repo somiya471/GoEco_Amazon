@@ -26,7 +26,7 @@ public class LoginManager {
     private static final String messageToken="firebase_messaging_token";
     private static final String isMessageTokenChanged="firebase_messaging_token";
 
-    private static String name = "name";
+    private static String id = "id";
 
     private static String strweight = "weight";
 
@@ -70,12 +70,12 @@ public class LoginManager {
     }
 
 
-    public void setname(String mname) {
-        editor.putString(name, mname).commit();
+    public void setid(String id) {
+        editor.putString(id, id).commit();
     }
 
-    public String getname() {
-        return sharedPreferences.getString(name, "");
+    public String getid() {
+        return sharedPreferences.getString(id, "");
     }
 
     public void setWeight(int weight) {
