@@ -119,13 +119,26 @@ These are the available API's in the application:
 
 1. Open the application by downloading the zip file and opening the unzipped file in android studio and press run
 2. First you will be able to view the login page. (You have to enter your username and password)
-3. For new users, you will need to register in the application first before logging in. Enter your username, password, weight. (You will be asked to provide access to your location)
-4. Now, you will be able to view the mainpage with three navigations ( home, delivery, profile)
+![image](https://github.com/user-attachments/assets/2f72e743-f028-4d62-b2b6-af3fc306d433)
+4. For new users, you will need to register in the application first before logging in. Enter your username, password, weight. (You will be asked to provide access to your location)
+![image](https://github.com/user-attachments/assets/02e35ab4-e11d-4647-8733-7c2684297fbc)
+5. Now, you will be able to view the mainpage with three navigations ( home, delivery, profile)
    - Home page: You will be able to view a list of product items that you can buy;
+     ![image](https://github.com/user-attachments/assets/89c5088d-2c6b-44d0-8bfe-8cf5bb76e7e2)
+     ![image](https://github.com/user-attachments/assets/2b844c8a-2cbb-4c15-b71d-21878a38f351)
+
+
    - Now on clicking the buy button u will redirected to confirmation page, you will be asked to fill details, choose delivery options, based on users location a list of pickup points will be displayed from which they can choose, further based on the pickup point distance is calculated between both the cordinates and accordingly in next slide various mode of transport is shown along with details (carbon saved,calorie burned, ecopoints),further on choosing the mode final all details are viewed to user along with delivery date and timeslot then user can confirm delivery.
+     ![image](https://github.com/user-attachments/assets/2ebdffcd-2005-44a4-8294-1028ec8f19e1)
+![image](https://github.com/user-attachments/assets/3c908595-3021-40a9-8f0c-28f32aed8ec0)
+
    - Delivery page: You will be able to view the list of delivery or orders u have made so far, so there for each delivery u have the details and u have two buttons (cancel and start) the start button is enabled only on delivery date and time slot given.
+     ![image](https://github.com/user-attachments/assets/387a719c-c27c-4e28-9a09-4cbd28761e8b)
+
    - Once enabled u can click on it, first it will once again track user location to confirm the previous details, based on that again it will display the user location and already chosen pickup point location details and distance between. There will be three buttons, for start tracking button it will start tracking user movement throughout the journey and for stop tracking it will consider all the data tracked so far and take an aggregate of it and predict the final movement. then for receive button the pin code is generated which can be cross checked and further delivery is success and data is changed according to current data( ecopoints, carbon saved, calorie burned)
-   - Profile page: you will be able to view ur profile and leaderboard which displays the top 3 users based on descending ecopoints and also your position in the leaderboard 
+   - Profile page: you will be able to view ur profile and leaderboard which displays the top 3 users based on descending ecopoints and also your position in the leaderboard
+     ![image](https://github.com/user-attachments/assets/4980cbc3-57a6-4175-8c72-89a6af78b68a)
+
 
 
 ### Running the Backend Server
