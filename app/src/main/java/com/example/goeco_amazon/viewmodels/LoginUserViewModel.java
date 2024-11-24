@@ -29,7 +29,7 @@ public class LoginUserViewModel extends ViewModel {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 Log.d("RESPONSE",String.valueOf(response.body()));
-                if(response.code()==200){
+                if(response.code()==200 || response.code() == 201){
                     userData.postValue(response.body());
                 }else{
                     userData.postValue(null);

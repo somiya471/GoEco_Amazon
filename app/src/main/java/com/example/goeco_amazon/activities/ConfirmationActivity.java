@@ -1,7 +1,13 @@
 package com.example.goeco_amazon.activities;
 
+import static com.example.goeco_amazon.utils.App.getContext;
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,23 +23,39 @@ import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.goeco_amazon.MainActivity;
 import com.example.goeco_amazon.R;
 import com.example.goeco_amazon.adapters.MetricsRecyclerAdapter;
 import com.example.goeco_amazon.adapters.NearbyPickupAdapter;
+import com.example.goeco_amazon.fragments.Step1Fragment;
+import com.example.goeco_amazon.fragments.Step2Fragment;
+import com.example.goeco_amazon.fragments.Step3Fragment;
+import com.example.goeco_amazon.fragments.Step4Fragment;
 import com.example.goeco_amazon.interfaces.MetricsCardOnClick;
 import com.example.goeco_amazon.interfaces.PickuppointOnClick;
+import com.example.goeco_amazon.models.DeliveryModel;
 import com.example.goeco_amazon.models.MetricsModel;
 import com.example.goeco_amazon.models.PickupPointModel;
+import com.example.goeco_amazon.models.UserLogin;
+import com.example.goeco_amazon.responsemodels.DeliveryResponse;
+import com.example.goeco_amazon.responsemodels.LoginResponse;
 import com.example.goeco_amazon.responsemodels.MetricsData;
 import com.example.goeco_amazon.responsemodels.MetricsResponse;
+import com.example.goeco_amazon.responsemodels.NearbyPickupResponse;
 import com.example.goeco_amazon.utils.LoginManager;
+import com.example.goeco_amazon.viewmodels.AddDeliveryViewModel;
 import com.example.goeco_amazon.viewmodels.GetMetricsViewModel;
+import com.example.goeco_amazon.viewmodels.LoginUserViewModel;
+import com.example.goeco_amazon.viewmodels.NearbyPickupViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -41,29 +63,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ConfirmationActivity extends AppCompatActivity {
-    ArrayList<PickupPointModel> pickupPoints;
-    RecyclerView recyclerView,metricsrecycler;
-    NearbyPickupAdapter adapter;
-    GetMetricsViewModel viewModel;
-    ArrayList<MetricsData> metricsData;
-    MetricsRecyclerAdapter metricsRecyclerAdapter;
-    String mode = "";
-    String id = "";
     Button continuebtn;
-    int selected = 0;
-    LinearLayout deliverypage,modepage,orderpage;
-    String delivery_option = "";
-    MetricsModel metricsModel;
     LoginManager loginManager;
-    CardView dooraddress;
-    String address = "";
     int quantity;
-    TextView productname,productprice,productdesc;
-    ImageView imageView;
-    TextView pickupname,pickupaddress,pickupdistance;
-    String name,desc,image;
+    String name,desc,image,pid;
     int price;
-    TextView deliverydate,timeslot,option,modetransport,deliveryaddress;
+    TextView step2,step3,step4;
+    AddDeliveryViewModel addDeliveryViewModel;
+
+    private int currentStep = 1; // To track the current step
+
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -71,18 +81,38 @@ public class ConfirmationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_confirmation);
-        pickupPoints = getIntent().getParcelableArrayListExtra("pickupPointsList");
+//        pickupPoints = getIntent().getParcelableArrayListExtra("pickupPointsList");
         quantity = getIntent().getIntExtra("quantity",0);
         price = getIntent().getIntExtra("productprice",0);
         name = getIntent().getStringExtra("productname");
         desc = getIntent().getStringExtra("productdesc");
         image = getIntent().getStringExtra("productimg");
+        pid = getIntent().getStringExtra("productid");
 
         continuebtn = findViewById(R.id.continue_button);
-
-        RadioGroup deliveryOptionsGroup = findViewById(R.id.delivery_options_group);
-
         loginManager = new LoginManager(this);
+        loginManager.setQuantity(
+                quantity
+        );
+        loginManager.setpid(pid);
+        loginManager.setPrice(price);
+        loginManager.setName(name);
+        loginManager.setDesc(desc);
+        loginManager.setImage(image);
+        step2 = findViewById(R.id.step_two_indicator);
+        step3 = findViewById(R.id.step_three_indicator);
+        step4 = findViewById(R.id.step_four_indicator);
+
+
+        loadFragment(new Step1Fragment());
+
+        Button btnContinue = findViewById(R.id.continue_button);
+        btnContinue.setOnClickListener(view -> {
+            // Handle "Continue" button click
+            btnadddelivery(pid,quantity,loginManager.getCurrentdate(),loginManager.getTimeslot(),loginManager.getmode(),loginManager.getaid(),loginManager.getid());
+            Toast.makeText(this, "Process Complete"+loginManager.getid(), Toast.LENGTH_SHORT).show();
+        });
+
         // Set a listener for the RadioGroup
 //        deliveryOptionsGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 //            @Override
@@ -99,130 +129,8 @@ public class ConfirmationActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-        deliverypage = findViewById(R.id.delivery_options_layout);
-        modepage = findViewById(R.id.mode_method_layout);
-        orderpage = findViewById(R.id.order_summary_layout);
-        dooraddress = findViewById(R.id.door_address);
-        pickupname = findViewById(R.id.pickup_name);
-        pickupaddress = findViewById(R.id.pickup_address);
-        pickupdistance = findViewById(R.id.pickup_distance);
-        recyclerView = findViewById(R.id.address_recycler_view);
-        metricsrecycler = findViewById(R.id.metrics_recycler);
-
-        deliverydate = findViewById(R.id.order_deliverydate);
-        option = findViewById(R.id.order_option);
-        timeslot = findViewById(R.id.order_timeslot);
-        modetransport = findViewById(R.id.order_mode);
-        deliveryaddress = findViewById(R.id.order_deliveryaddress);
-        productname = findViewById(R.id.order_name);
-        productdesc = findViewById(R.id.order_desc);
-        productprice = findViewById(R.id.order_price);
-        imageView = findViewById(R.id.order_image);
-
-        continuebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selected == 0){
-                    selected = 1;
-                    int selectedOptionId = deliveryOptionsGroup.getCheckedRadioButtonId();
-                    if (selectedOptionId != -1) {
-                        RadioButton selectedRadioButton = findViewById(selectedOptionId);
-                        String selectedText = selectedRadioButton.getText().toString();
-                        delivery_option = selectedText;
-                        Toast.makeText(ConfirmationActivity.this, "Currently selected: " + selectedText, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(ConfirmationActivity.this, "No option selected", Toast.LENGTH_SHORT).show();
-                    }
-                    deliverypage.setVisibility(View.GONE);
-
-                    if (delivery_option.equals("Nearby PickupPoints (RECOMMENDED)")){
-                        recyclerView.setVisibility(View.VISIBLE);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(ConfirmationActivity.this));
-                        adapter = new NearbyPickupAdapter(ConfirmationActivity.this, pickupPoints, new PickuppointOnClick() {
-                            @Override
-                            public void onClick(PickupPointModel pointModel) {
-                                id = pointModel.get_id();
-                                address = pointModel.getAddress();
-                                metricsModel = new MetricsModel(pointModel.getDistance(),loginManager.getWeight());
-                            }
-                        });
-                        recyclerView.setAdapter(adapter);
-                    }
-                    else if(delivery_option.equals("Door to door delivery")){
-                        dooraddress.setVisibility(View.VISIBLE);
-                        //LOGIC FOR THIS IS REMAINING
-                    }
-                }
-                if (selected == 1){
-                    selected = 2;
-                    recyclerView.setVisibility(View.GONE);
-                    dooraddress.setVisibility(View.GONE);
-                    modepage.setVisibility(View.VISIBLE);
-                    viewModel.metricsdata(ConfirmationActivity.this.getApplication(),metricsModel);
-                    viewModel = new ViewModelProvider(ConfirmationActivity.this).get(GetMetricsViewModel.class);
-                    viewModel.getUserLiveData().observe(ConfirmationActivity.this, new Observer<MetricsResponse>() {
-                        @Override
-                        public void onChanged(MetricsResponse response) {
-                            if (response!=null) {
-                                metricsData = response.getData();
-//                            Intent intent = new Intent(PickupMetricsActivity.this, PickupMetricsActivity.class);
-//                            intent.putParcelableArrayListExtra("pickupPointsList", arrayList);
-//                            startActivity(intent);
-                                metricsrecycler.setLayoutManager(new LinearLayoutManager(ConfirmationActivity.this));
-                                metricsRecyclerAdapter = new MetricsRecyclerAdapter(ConfirmationActivity.this, metricsData, new MetricsCardOnClick() {
-                                    @Override
-                                    public void onclick(MetricsData metricsData) {
-                                        mode = metricsData.getMode();
-
-                                    }
-                                });
-                                metricsrecycler.setAdapter(metricsRecyclerAdapter);
-
-                            }
-                        }
-                    });
-
-                }
-                if (selected == 2){
-                    selected = 3;
-                    continuebtn.setText("Place order");
-                    modepage.setVisibility(View.GONE);
-                    orderpage.setVisibility(View.VISIBLE);
-                    Date currentDate = new Date();
-                    System.out.println("Current Date and Time: " + currentDate);
-
-                    // Format the current date to only show the date part
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String currentDateString = dateFormat.format(currentDate);
-
-                    // Calculate the time 15 minutes from now
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(currentDate);
-                    calendar.add(Calendar.MINUTE, 15);
-                    Date timeSlot = calendar.getTime();
-
-                    // Format the time slot to show the desired time format
-                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                    String timeSlotString = timeFormat.format(timeSlot);
-                    deliverydate.setText(currentDateString);
-                    timeslot.setText(timeSlotString);
-                    option.setText(delivery_option);
-                    modetransport.setText(mode);
-                    deliveryaddress.setText(address);
-                    productname.setText(name);
-                    productdesc.setText(desc);
-                    productprice.setText("Rs. "+price);
-                    Glide.with(ConfirmationActivity.this).load(image).into(imageView);
 
 
-                }
-                if (selected == 3){
-
-                }
-
-
-            }
-        });
 
 
 
@@ -232,6 +140,56 @@ public class ConfirmationActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+    }
+
+    public void loadNextFragment() {
+        Fragment fragment = null;
+
+        if (currentStep == 1) {
+            fragment = new Step2Fragment();
+            currentStep++;
+        } else if (currentStep == 2) {
+            fragment = new Step3Fragment();
+            currentStep++;
+        } else if (currentStep == 3) {
+//            View stepThreeIndicator = findViewById(R.id.step_four_indicator);
+//            GradientDrawable background = (GradientDrawable) stepThreeIndicator.getBackground();
+//            background.setColor(Color.parseColor("#008397")); // Set the desired color
+            fragment = new Step4Fragment();
+            findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
+        }
+
+        if (fragment != null) {
+            loadFragment(fragment);
+        }
+    }
+
+    private void loadFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .commit();
+    }
+    private void btnadddelivery(String product,int quantity,String delivery_date,String timeslot,String mode,String address,String user) {
+
+        DeliveryModel deliveryModel = new DeliveryModel(product,quantity,delivery_date,timeslot,mode,address,user);
+        initViewModel();
+        addDeliveryViewModel.deliveryadd(this.getApplication(),deliveryModel);
+    }
+
+    private void initViewModel(){
+        addDeliveryViewModel = new ViewModelProvider(this).get(AddDeliveryViewModel.class);
+        addDeliveryViewModel.getUserLiveData().observe(this, new Observer<DeliveryResponse>() {
+            @Override
+            public void onChanged(DeliveryResponse deliveryResponse) {
+                if (deliveryResponse == null) {
+                    Toast.makeText(ConfirmationActivity.this, "Delivery add Failure", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ConfirmationActivity.this, "Delivery add Successful", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(ConfirmationActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+            }
         });
     }
 }

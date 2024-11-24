@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/delivery_options_layout"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".fragments.Step1Fragment"
+    android:backgroundTint="@color/white"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:text="Select your Delivery Option" />
+
+    <RadioGroup
+        android:id="@+id/delivery_options_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/delivery_option1"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:textColor="#008397"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:text="Nearby PickupPoints (RECOMMENDED)" />
+
+        <RadioButton
+            android:id="@+id/delivery_option2"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/white"
+            android:text="Door to door delivery" />
+    </RadioGroup>
+    <Button
+        android:layout_marginHorizontal="6dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/btnNext1"
+        android:backgroundTint="#FEBE10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next Step >" />
+
+</LinearLayout>

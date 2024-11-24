@@ -6,7 +6,6 @@ android:layout_height="match_parent"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:id="@+id/main"
 tools:context=".activities.LoginActivity"
-xmlns:app="http://schemas.android.com/apk/res-auto"
 android:background="@android:color/white">
 
 <LinearLayout
@@ -87,7 +86,7 @@ android:background="@android:color/white">
                 android:layout_marginStart="8dp"
                 android:background="@null"
                 android:hint="Enter Password"
-                android:inputType="textEmailAddress"
+                android:inputType="textPassword"
                 android:textColor="@android:color/darker_gray"
                 tools:ignore="TouchTargetSizeCheck" />
         </LinearLayout>

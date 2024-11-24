@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,6 +13,7 @@ import javax.net.ssl.SSLSession;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -21,14 +23,14 @@ public class RetrofitBuilder {
     private Retrofit retrofit;
 
     //TODO:TO ADD BASE URL
-    private final static String BASEURL = "http://localhost:3000/";
+    private final static String BASEURL = "http://192.168.133.127:3000/";
 
     private static RetrofitBuilder mInstance;
 
     private RetrofitBuilder(Application application) {
 
-//          HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+          HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 
         //OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
@@ -63,8 +65,8 @@ public class RetrofitBuilder {
                             return chain.proceed(request);
                         }
                 )
-//                .addInterceptor(interceptor)
-//                .addInterceptor(new ChuckInterceptor(application))
+                .addInterceptor(interceptor)
+                .addInterceptor(new ChuckInterceptor(application))
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60,TimeUnit.SECONDS)
                 .hostnameVerifier(new HostnameVerifier() {

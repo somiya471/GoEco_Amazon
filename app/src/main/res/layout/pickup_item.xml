@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="6dp"
-    android:cardCornerRadius="8dp"
-    android:cardBackgroundColor="#FFFFFF">
+    android:id="@+id/pickupcard"
+    android:layout_margin="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:strokeColor="@color/black"
+    app:strokeWidth="1dp"
+    android:elevation="6dp">
 
     <LinearLayout
         android:orientation="vertical"
@@ -56,4 +58,4 @@
                 android:textColor="#757575" />
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     LoginUserViewModel loginUserViewModel;
     LoginManager loginManager;
+    TextView signup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,13 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         loginManager = new LoginManager(this);
+        signup = findViewById(R.id.textViewSignUp);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+            }
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (userResponse == null) {
                     Toast.makeText(LoginActivity.this, "Register Failure", Toast.LENGTH_SHORT).show();
                 } else {
-                    loginManager.settoken(userResponse.getToken());
-                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+//                    loginManager.settoken(userResponse.getToken());
+                    Toast.makeText(LoginActivity.this, "Login Successful"+loginManager.getid(), Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(i);
                 }

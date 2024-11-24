@@ -26,15 +26,20 @@ public class RegisterUserViewModel extends ViewModel {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 Log.d("RESPONSE",String.valueOf(response.body()));
-                if(response.code()==200){
+                if(response.code()==200 || response.code() == 201){
                     userData.postValue(response.body());
                 }else{
+                    Log.e("API Error", "Error: " + response.code());
+
+//                    Log.e("ERROR",response.message());
                     userData.postValue(null);
                 }
             }
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 userData.postValue(null);
+                Log.e("API Failure", "Failure: " + t.getMessage());
+
             }
         });
 

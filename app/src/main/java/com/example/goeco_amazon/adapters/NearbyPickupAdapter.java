@@ -1,12 +1,12 @@
 package com.example.goeco_amazon.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goeco_amazon.R;
@@ -15,14 +15,15 @@ import com.example.goeco_amazon.models.PickupPointModel;
 import com.example.goeco_amazon.responsemodels.NearbyPickupResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NearbyPickupAdapter extends RecyclerView.Adapter<NearbyPickupAdapter.MyViewHolder>{
     Context context;
-    ArrayList<PickupPointModel> responses;
+    List<PickupPointModel> responses;
     PickuppointOnClick pickuppointOnClick;
 
 
-    public NearbyPickupAdapter(Context context,ArrayList<PickupPointModel> responses,PickuppointOnClick pickuppointOnClick) {
+    public NearbyPickupAdapter(Context context,List<PickupPointModel> responses,PickuppointOnClick pickuppointOnClick) {
         this.context = context;
         this.responses = responses;
         this.pickuppointOnClick = pickuppointOnClick;
@@ -41,7 +42,7 @@ public class NearbyPickupAdapter extends RecyclerView.Adapter<NearbyPickupAdapte
         PickupPointModel pointModel = responses.get(position);
         holder.name.setText(responses.get(position).getName());
         holder.address.setText(responses.get(position).getAddress());
-        holder.distance.setText(String.format("%.2f km", responses.get(position).getDistance()));
+        holder.distance.setText("Distance: "+ String.format("%.2f km", responses.get(position).getDistance()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +54,7 @@ public class NearbyPickupAdapter extends RecyclerView.Adapter<NearbyPickupAdapte
 
     @Override
     public int getItemCount() {
-        return responses.size();
+        return (responses != null && !responses.isEmpty()) ? responses.size() : 0;
     }
 
 

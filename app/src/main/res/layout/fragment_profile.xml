@@ -23,6 +23,7 @@
             android:layout_height="80dp"
             android:scaleType="centerCrop"
             android:layout_marginEnd="16dp"
+            android:backgroundTint="@android:color/darker_gray"
             android:background="@drawable/circle_shape"
             android:padding="4dp"/>
 
@@ -65,7 +66,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/leaderboard_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:dividerHeight="1dp"
         android:padding="4dp" />
 </LinearLayout>

@@ -7,7 +7,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etUsername, etPassword, etWeight;
     private Button btnRegister;
     private LocationManager locationManager;
-    private double latitude, longitude;
+    private double latitude = 70.6754, longitude = 50.6785;
     RegisterUserViewModel registerUserViewModel;
     LoginManager loginManager;
 
@@ -87,6 +87,9 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onLocationChanged(Location location) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
+                    loginManager.setLatitude(latitude);
+                    loginManager.setLongitude(longitude);
+                    Toast.makeText(RegisterActivity.this,latitude+""+longitude,Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -119,8 +122,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (userResponse == null) {
                     Toast.makeText(RegisterActivity.this, "Register Failure", Toast.LENGTH_SHORT).show();
                 } else {
-                    loginManager.setid(userResponse.getUser().get_id());
-                    Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_LONG).show();
+                    String id = userResponse.getUser().get_id();
+                    loginManager.setid(id);
+                    Toast.makeText(RegisterActivity.this, "Register successful"+userResponse.getUser().get_id(), Toast.LENGTH_LONG).show();
                     Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(i);
                 }

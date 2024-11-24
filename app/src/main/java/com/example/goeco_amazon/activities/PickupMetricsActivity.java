@@ -52,37 +52,37 @@ public class PickupMetricsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.mode_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NearbyPickupAdapter(this, pickupPoints, new PickuppointOnClick() {
-            @Override
-            public void onClick(PickupPointModel pointModel) {
-                id = pointModel.get_id();
-                viewModel = new ViewModelProvider(PickupMetricsActivity.this).get(GetMetricsViewModel.class);
-                viewModel.getUserLiveData().observe(PickupMetricsActivity.this, new Observer<MetricsResponse>() {
-                    @Override
-                    public void onChanged(MetricsResponse response) {
-                        if (response!=null) {
-                            metricsData = response.getData();
-//                            Intent intent = new Intent(PickupMetricsActivity.this, PickupMetricsActivity.class);
-//                            intent.putParcelableArrayListExtra("pickupPointsList", arrayList);
-//                            startActivity(intent);
-                            metricsrecycler = findViewById(R.id.metrics_recycler_view);
-                            metricsrecycler.setLayoutManager(new LinearLayoutManager(PickupMetricsActivity.this));
-                            metricsRecyclerAdapter = new MetricsRecyclerAdapter(PickupMetricsActivity.this, metricsData, new MetricsCardOnClick() {
-                                @Override
-                                public void onclick(MetricsData metricsData) {
-                                    mode = metricsData.getMode();
+//        adapter = new NearbyPickupAdapter(this, pickupPoints, new PickuppointOnClick() {
+//            @Override
+//            public void onClick(PickupPointModel pointModel) {
+//                id = pointModel.get_id();
+//                viewModel = new ViewModelProvider(PickupMetricsActivity.this).get(GetMetricsViewModel.class);
+//                viewModel.getUserLiveData().observe(PickupMetricsActivity.this, new Observer<MetricsResponse>() {
+//                    @Override
+//                    public void onChanged(MetricsResponse response) {
+//                        if (response!=null) {
+//                            metricsData = response.getData();
+////                            Intent intent = new Intent(PickupMetricsActivity.this, PickupMetricsActivity.class);
+////                            intent.putParcelableArrayListExtra("pickupPointsList", arrayList);
+////                            startActivity(intent);
+//                            metricsrecycler = findViewById(R.id.metrics_recycler_view);
+//                            metricsrecycler.setLayoutManager(new LinearLayoutManager(PickupMetricsActivity.this));
+//                            metricsRecyclerAdapter = new MetricsRecyclerAdapter(PickupMetricsActivity.this, metricsData, new MetricsCardOnClick() {
+//                                @Override
+//                                public void onclick(MetricsData metricsData) {
+//                                    mode = metricsData.getMode();
+//
+//                                }
+//                            });
+//                            metricsrecycler.setAdapter(metricsRecyclerAdapter);
+//
+//                        }
+//                    }
+//                });
 
-                                }
-                            });
-                            metricsrecycler.setAdapter(metricsRecyclerAdapter);
-
-                        }
-                    }
-                });
-
-            }
-        });
-        recyclerView.setAdapter(adapter);
+//            }
+//        });
+//        recyclerView.setAdapter(adapter);
 
 
 // Use the pickupPoints list as needed, e.g., setting up a RecyclerView adapter

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="6dp"
+    tools:context=".fragments.Step2Fragment"
+    android:orientation="vertical">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="visible"
+        android:id="@+id/address_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/door_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:visibility="gone"
+        android:layout_marginTop="5dp"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/pickup_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pickup Point"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/pickup_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:layout_marginTop="4dp"
+                android:textSize="16sp"
+                android:textColor="#757575"
+                android:paddingBottom="2dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_location_on_24"
+                    android:layout_marginEnd="4dp" />
+
+                <TextView
+                    android:id="@+id/pickup_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Distance"
+                    android:textSize="16sp"
+                    android:textColor="#757575" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnNext2"
+        android:layout_marginHorizontal="6dp"
+        android:backgroundTint="#FEBE10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next Step >" />
+
+</LinearLayout>

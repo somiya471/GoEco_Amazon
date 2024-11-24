@@ -1,12 +1,12 @@
 package com.example.goeco_amazon.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goeco_amazon.R;
@@ -16,14 +16,15 @@ import com.example.goeco_amazon.models.PickupPointModel;
 import com.example.goeco_amazon.responsemodels.MetricsData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MetricsRecyclerAdapter extends RecyclerView.Adapter<MetricsRecyclerAdapter.MyViewHolder>{
     Context context;
-    ArrayList<MetricsData> responses;
+    List<MetricsData> responses;
     MetricsCardOnClick metricsCardOnClick;
 
 
-    public MetricsRecyclerAdapter(Context context,ArrayList<MetricsData> responses,MetricsCardOnClick metricsCardOnClick) {
+    public MetricsRecyclerAdapter(Context context,List<MetricsData> responses,MetricsCardOnClick metricsCardOnClick) {
         this.context = context;
         this.responses = responses;
         this.metricsCardOnClick = metricsCardOnClick;
@@ -41,9 +42,9 @@ public class MetricsRecyclerAdapter extends RecyclerView.Adapter<MetricsRecycler
 
         MetricsData metricsData = responses.get(position);
         holder.mode.setText(responses.get(position).getMode());
-        holder.carbon.setText(String.format("%.2f kg", responses.get(position).getCarbon_saved()));
-        holder.calorie.setText(String.format("%.2f cal", responses.get(position).getCalories_burned()));
-        holder.ecopoints.setText(String.format("%.2f points", responses.get(position).getEcoPoints()));
+        holder.carbon.setText("Carbon saved: "+String.format("%.2f kg", responses.get(position).getCarbon_saved()));
+        holder.calorie.setText("Calorie burned: "+String.format("%.2f cal", responses.get(position).getCalories_burned()));
+        holder.ecopoints.setText("Ecopoints: "+responses.get(position).getEcoPoints()+"");
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +56,7 @@ public class MetricsRecyclerAdapter extends RecyclerView.Adapter<MetricsRecycler
 
     @Override
     public int getItemCount() {
-        return responses.size();
+        return (responses != null && !responses.isEmpty()) ? responses.size() : 0;
     }
 
 

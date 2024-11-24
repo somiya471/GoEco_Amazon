@@ -25,11 +25,11 @@ public class GetProductsViewModel extends ViewModel {
     public void nearbypickup(Application application){
         loginManager = new LoginManager(application);
         ApiInterface retro= RetrofitBuilder.getInstance(application).getApi();
-        retro.getproducts(loginManager.gettoken()).enqueue(new Callback<ProductResponse>() {
+        retro.getproducts().enqueue(new Callback<ProductResponse>() {
             @Override
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 Log.d("RESPONSE",String.valueOf(response.body()));
-                if(response.code()==200){
+                if(response.code()==200 || response.code() == 201){
                     userData.postValue(response.body());
                 }else{
                     userData.postValue(null);

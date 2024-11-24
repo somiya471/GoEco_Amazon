@@ -16,7 +16,7 @@
 
         <!-- Delivery Information -->
         <TextView
-            android:id="@+id/delivery_title"
+            android:id="@+id/delivery_prod_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delivery Title"
@@ -25,43 +25,103 @@
             android:layout_marginBottom="8dp"/>
 
         <TextView
-            android:id="@+id/delivery_address"
+            android:id="@+id/delivery_prod_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address: 123 Main Street"
-            android:textSize="14sp"
-            android:layout_marginBottom="4dp"/>
+            android:text="Price:"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/delivery_prod_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:layout_marginBottom="5dp"/>
 
         <TextView
-            android:id="@+id/delivery_time"
+            android:id="@+id/delivery_prod_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scheduled Time: 10:30 AM"
+            android:text="Quantity"
             android:textSize="14sp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/delivery_prod_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+        android:id="@+id/delivery_prod_timeslot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        android:textSize="14sp"
+        android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/delivery_prod_ecopoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/delivery_prod_carbon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="14sp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/delivery_prod_calorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="14sp"
+            android:layout_marginBottom="12dp"/>
+        <TextView
+            android:id="@+id/delivery_prod_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity"
+            android:textSize="15sp"
+            android:textStyle="bold"
             android:layout_marginBottom="12dp"/>
 
         <!-- Buttons -->
         <LinearLayout
+            android:id="@+id/btnlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
+            android:weightSum="2"
+            android:orientation="horizontal">
+
 
             <Button
                 android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="Cancel"
+                android:backgroundTint="#FEBE10"
                 android:layout_marginEnd="8dp"
                 android:textColor="@android:color/white"/>
 
             <Button
                 android:id="@+id/btn_start"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start"
                 android:enabled="false"
+                android:backgroundTint="@android:color/darker_gray"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

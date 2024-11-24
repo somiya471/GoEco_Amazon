@@ -1,7 +1,6 @@
 package com.example.goeco_amazon.adapters;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.goeco_amazon.R;
@@ -45,7 +45,7 @@ public class ProductListRecyclerAdapter extends RecyclerView.Adapter<ProductList
 
         ProductModel pointModel = responses.get(position);
         holder.name.setText(responses.get(position).getName());
-        holder.price.setText("Rs."+ responses.get(position).getPrice());
+        holder.price.setText("Price: Rs."+ responses.get(position).getPrice());
         Picasso.get().load(responses.get(position).getImage()).into(holder.imageView);
         holder.buy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class ProductListRecyclerAdapter extends RecyclerView.Adapter<ProductList
 
     @Override
     public int getItemCount() {
-        return responses.size();
+        return (responses != null && !responses.isEmpty()) ? responses.size() : 0;
     }
 
 

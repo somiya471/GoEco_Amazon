@@ -6,15 +6,21 @@ public class User {
     private int weight;
     private double latitude;
     private double longitude;
+    private int ecoPoints;
+    private double carbonSaved;
+    private double caloriesBurned;
     private String _id;
     private int __v;
 
-    public User(String username, String password, int weight, double latitude, double longitude, String _id, int __v) {
+    public User(String username, String password, int weight, double latitude, double longitude, int ecoPoints, double carbonSaved, double caloriesBurned, String _id, int __v) {
         this.username = username;
         this.password = password;
         this.weight = weight;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.ecoPoints = ecoPoints;
+        this.carbonSaved = carbonSaved;
+        this.caloriesBurned = caloriesBurned;
         this._id = _id;
         this.__v = __v;
     }
@@ -57,6 +63,30 @@ public class User {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public int getEcoPoints() {
+        return ecoPoints;
+    }
+
+    public void setEcoPoints(int ecoPoints) {
+        this.ecoPoints = ecoPoints;
+    }
+
+    public double getCarbonSaved() {
+        return carbonSaved;
+    }
+
+    public void setCarbonSaved(double carbonSaved) {
+        this.carbonSaved = carbonSaved;
+    }
+
+    public double getCaloriesBurned() {
+        return caloriesBurned;
+    }
+
+    public void setCaloriesBurned(double caloriesBurned) {
+        this.caloriesBurned = caloriesBurned;
     }
 
     public String get_id() {

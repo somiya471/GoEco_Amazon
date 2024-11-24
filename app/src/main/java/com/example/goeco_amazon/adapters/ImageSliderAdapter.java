@@ -2,6 +2,7 @@ package com.example.goeco_amazon.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,9 +13,10 @@ import com.example.goeco_amazon.R;
 
 import java.util.List;
 
-public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.ImageViewHolder> {
-    private final Context context;
-    private final List<String> images;
+public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.SliderViewHolder> {
+    private Context context;
+    private List<String> images;
+    private boolean isUserScrolling = false;
 
     public ImageSliderAdapter(Context context, List<String> images) {
         this.context = context;
@@ -23,15 +25,35 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
 
     @NonNull
     @Override
-    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.slider_item, parent, false);
-        return new ImageViewHolder(view);
+        return new SliderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
         String imageUrl = images.get(position);
-        Glide.with(context).load(imageUrl).into(holder.imageView);
+        // Load image using your preferred image loading library (Glide, Picasso, etc.)
+        Glide.with(context)
+                .load(imageUrl)
+                .into(holder.imageView);
+
+        // Handle touch events
+        holder.imageView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    isUserScrolling = true;
+                    // Prevent parent ViewPager from intercepting touch events
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    isUserScrolling = false;
+                    v.getParent().requestDisallowInterceptTouchEvent(false);
+                    break;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -39,13 +61,12 @@ public class ImageSliderAdapter extends RecyclerView.Adapter<ImageSliderAdapter.
         return images.size();
     }
 
-    static class ImageViewHolder extends RecyclerView.ViewHolder {
+    public static class SliderViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public ImageViewHolder(@NonNull View itemView) {
+        public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.image_view);
+            imageView = itemView.findViewById(R.id.slider_image);
         }
     }
 }
-

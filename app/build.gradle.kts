@@ -40,7 +40,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
     implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
@@ -49,6 +48,14 @@ dependencies {
     releaseImplementation(libs.chuck.release)
     implementation(libs.glide)
     implementation(libs.picasso)
+    implementation(libs.lottie)
+
+    implementation(libs.play.services.location)
+    implementation(libs.androidx.localbroadcastmanager)
+
+
+
+
 
 
 }
