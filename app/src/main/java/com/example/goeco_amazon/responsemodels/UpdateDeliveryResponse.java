@@ -12,11 +12,13 @@ public class UpdateDeliveryResponse {
     private String delivery_status;
     private String user;
     private int ecoPoints;
+    private double carbonSaved;
+    private double caloriesBurned;
     private String createdAt;
     private String updatedAt;
     private int __v;
 
-    public UpdateDeliveryResponse(String _id, String product, int quantity, String delivery_date, String time_slot, String mode_of_transport, String delivery_address, String recieve_time, String delivery_status, String user, int ecoPoints, String createdAt, String updatedAt, int __v) {
+    public UpdateDeliveryResponse(String _id, String product, int quantity, String delivery_date, String time_slot, String mode_of_transport, String delivery_address, String recieve_time, String delivery_status, String user, int ecoPoints, double carbonSaved, double caloriesBurned, String createdAt, String updatedAt, int __v) {
         this._id = _id;
         this.product = product;
         this.quantity = quantity;
@@ -28,6 +30,8 @@ public class UpdateDeliveryResponse {
         this.delivery_status = delivery_status;
         this.user = user;
         this.ecoPoints = ecoPoints;
+        this.carbonSaved = carbonSaved;
+        this.caloriesBurned = caloriesBurned;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.__v = __v;
@@ -143,5 +147,21 @@ public class UpdateDeliveryResponse {
 
     public void set__v(int __v) {
         this.__v = __v;
+    }
+
+    public double getCarbonSaved() {
+        return carbonSaved;
+    }
+
+    public void setCarbonSaved(double carbonSaved) {
+        this.carbonSaved = carbonSaved;
+    }
+
+    public double getCaloriesBurned() {
+        return caloriesBurned;
+    }
+
+    public void setCaloriesBurned(double caloriesBurned) {
+        this.caloriesBurned = caloriesBurned;
     }
 }

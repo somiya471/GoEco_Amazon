@@ -56,6 +56,9 @@ public class GetDeliveryRecyclerAdapter extends RecyclerView.Adapter<GetDelivery
                 holder.prodprice.setText(delivery.getProduct().getPrice() != 0 ? "Price: "+ delivery.getProduct().getPrice()+"" : "0.00");
             }
             holder.prodquantity.setText(delivery.getQuantity() != 0 ? "Quantity: "+delivery.getQuantity()+"" : "0");
+            holder.ecopoints.setText(delivery.getEcoPoints() != 0 ? "Eco Points: "+delivery.getEcoPoints()+"" : "0");
+            holder.carbonsaved.setText(delivery.getCarbonSaved() != 0 ? "Carbon Saved: "+delivery.getCarbonSaved()+"" : "0");
+            holder.calorieburned.setText(delivery.getCaloriesBurned() != 0 ? "Calorie Burned: "+delivery.getCaloriesBurned()+"" : "0");
 
             holder.date.setText(delivery.getDelivery_date() != null ? "Delivery date: "+delivery.getDelivery_date() : "N/A");
             holder.timeslot.setText(delivery.getTime_slot() != null ? "Delivery timeslot: "+ delivery.getTime_slot() : "N/A");
@@ -87,7 +90,7 @@ public class GetDeliveryRecyclerAdapter extends RecyclerView.Adapter<GetDelivery
 
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView prodname,prodprice,prodquantity,date,timeslot,deliverystatus,address;
+        TextView prodname,prodprice,prodquantity,date,timeslot,deliverystatus,address,ecopoints,carbonsaved,calorieburned;
         Button cancel,start;
         LinearLayout btnlayout;
 
@@ -103,6 +106,9 @@ public class GetDeliveryRecyclerAdapter extends RecyclerView.Adapter<GetDelivery
             cancel = itemView.findViewById(R.id.btn_cancel);
             start = itemView.findViewById(R.id.btn_start);
             btnlayout = itemView.findViewById(R.id.btnlayout);
+            ecopoints = itemView.findViewById(R.id.delivery_prod_ecopoints);
+            carbonsaved = itemView.findViewById(R.id.delivery_prod_carbon);
+            calorieburned = itemView.findViewById(R.id.delivery_prod_calorie);
 
         }
     }

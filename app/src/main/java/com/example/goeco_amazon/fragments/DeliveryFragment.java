@@ -93,7 +93,7 @@ public class DeliveryFragment extends Fragment {
     }
     private void updatedelivery(String status,String receivetime,int ecoPoints,String id,String mode) {
 
-        UpdateDelivery updateDelivery = new UpdateDelivery(status,receivetime,ecoPoints,mode);
+        UpdateDelivery updateDelivery = new UpdateDelivery(status,receivetime,ecoPoints,0.0,0.0,mode);
         initViewModel();
         updateDeliveryViewModel.updatedelivery(getActivity().getApplication(),updateDelivery,id);
     }

@@ -5,11 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/order_summary_layout"
+    android:backgroundTint="@color/white"
     tools:context=".fragments.Step4Fragment"
     android:orientation="vertical">
 
 
     <androidx.cardview.widget.CardView
+        android:backgroundTint="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -68,6 +70,7 @@
         android:layout_width="match_parent"
         app:strokeColor="@color/black"
         app:cardCornerRadius="0dp"
+        android:backgroundTint="@color/white"
         android:layout_height="wrap_content">
         <LinearLayout
             android:padding="10dp"

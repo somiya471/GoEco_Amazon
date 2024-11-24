@@ -4,6 +4,7 @@ import static com.example.goeco_amazon.utils.App.getContext;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -145,18 +146,19 @@ public class ConfirmationActivity extends AppCompatActivity {
 
     public void loadNextFragment() {
         Fragment fragment = null;
+        int activeColor = Color.parseColor("#008397"); // Your blue color
 
         if (currentStep == 1) {
             fragment = new Step2Fragment();
             currentStep++;
+            step2.setBackgroundTintList(ColorStateList.valueOf(activeColor));
         } else if (currentStep == 2) {
             fragment = new Step3Fragment();
             currentStep++;
+            step3.setBackgroundTintList(ColorStateList.valueOf(activeColor));
         } else if (currentStep == 3) {
-//            View stepThreeIndicator = findViewById(R.id.step_four_indicator);
-//            GradientDrawable background = (GradientDrawable) stepThreeIndicator.getBackground();
-//            background.setColor(Color.parseColor("#008397")); // Set the desired color
             fragment = new Step4Fragment();
+            step4.setBackgroundTintList(ColorStateList.valueOf(activeColor));
             findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
         }
 

@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delivery"
+                    android:textColor="@color/black"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -69,6 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Address"
+                    android:textColor="@color/black"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -94,6 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Mode"
+                    android:textColor="@color/black"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -119,6 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Confirm"
+                    android:textColor="@color/black"
                     android:layout_marginTop="8dp" />
             </LinearLayout>
 
@@ -131,7 +135,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="@android:color/white" />
+            android:background="@color/white" />
 
             <!-- Delivery Options Layout -->
 
@@ -153,6 +157,7 @@
             android:text="Continue"
             android:textSize="15sp"
             android:visibility="gone"
+            android:textColor="@color/white"
             android:backgroundTint="#FEBE10"
             android:layout_marginTop="16dp" />
     </LinearLayout>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    tools:context=".fragments.ProfileFragment"
+    android:background="@android:color/white"
     android:padding="16dp">
 
     <!-- Profile Section -->
@@ -14,13 +16,13 @@
         android:padding="16dp"
         android:gravity="center_vertical"
         android:elevation="4dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="5dp">
 
         <!-- Profile Picture -->
         <ImageView
             android:id="@+id/profile_picture"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:scaleType="centerCrop"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@android:color/darker_gray"
@@ -46,21 +48,47 @@
             <TextView
                 android:id="@+id/profile_ecopoints"
                 android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:text="EcoPoints: 12345"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/profile_carbon"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EcoPoints: 12345"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/profile_calorie"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="EcoPoints: 12345"
                 android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:backgroundTint="#008397"
+        android:text="Logout"/>
 
     <!-- Leaderboard Title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Leaderboard"
+        android:layout_marginStart="5dp"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="10dp"/>
 
     <!-- Leaderboard List -->
     <androidx.recyclerview.widget.RecyclerView

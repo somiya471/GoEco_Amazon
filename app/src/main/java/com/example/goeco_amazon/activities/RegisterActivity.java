@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,20 @@ public class RegisterActivity extends AppCompatActivity {
     private double latitude = 70.6754, longitude = 50.6785;
     RegisterUserViewModel registerUserViewModel;
     LoginManager loginManager;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
+
+    private void checkLocationPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            }, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            getLocation();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +64,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        // Request Location Permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        } else {
-            getLocation();
+        // Check if location services are enabled
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, "Please enable GPS", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
         }
+
+        checkLocationPermissions();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +98,30 @@ public class RegisterActivity extends AppCompatActivity {
     }
     private void getLocation() {
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, new LocationListener() {
+            // Check permissions again
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+            // Try to get last known location first
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownLocation != null) {
+                latitude = lastKnownLocation.getLatitude();
+                longitude = lastKnownLocation.getLongitude();
+                loginManager.setLatitude(latitude);
+                loginManager.setLongitude(longitude);
+            }
+
+            // Request location updates from both providers
+            LocationListener locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     loginManager.setLatitude(latitude);
                     loginManager.setLongitude(longitude);
-                    Toast.makeText(RegisterActivity.this,latitude+""+longitude,Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Location updated: " + latitude + ", " + longitude, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -100,11 +132,44 @@ public class RegisterActivity extends AppCompatActivity {
 
                 @Override
                 public void onProviderDisabled(String provider) {
-                    Toast.makeText(RegisterActivity.this, "Enable GPS for location", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, provider + " is disabled. Please enable location services", Toast.LENGTH_SHORT).show();
                 }
-            });
+            };
+
+            // Request updates from GPS provider
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER,
+                    5000,  // 5 seconds
+                    5,     // 5 meters
+                    locationListener
+            );
+
+            // Also request updates from Network provider as backup
+            locationManager.requestLocationUpdates(
+                    LocationManager.NETWORK_PROVIDER,
+                    5000,  // 5 seconds
+                    5,     // 5 meters
+                    locationListener
+            );
+
         } catch (SecurityException e) {
             e.printStackTrace();
+            Toast.makeText(this, "Error accessing location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText(this, "Location permission denied. Using default location.", Toast.LENGTH_SHORT).show();
+            }
         }
     }
     private void btnuserregister(String username,String password,int weight,double latitude,double longitude) {

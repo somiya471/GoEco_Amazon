@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
 
-    TextView profilename,ecopoints;
+    TextView profilename,ecopoints,carbon,calorie;
     ProfileViewModel viewModel;
     RecyclerView recyclerView;
     LeaderboardViewModel leaderboardViewModel;
@@ -55,13 +55,18 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         profilename = view.findViewById(R.id.profile_name);
         ecopoints = view.findViewById(R.id.profile_ecopoints);
+        carbon = view.findViewById(R.id.profile_carbon);
+        calorie = view.findViewById(R.id.profile_calorie);
+
         viewModel = new ViewModelProvider((ViewModelStoreOwner) getContext()).get(ProfileViewModel.class);
         viewModel.getUserLiveData().observe((LifecycleOwner) getContext(), new Observer<ProfileResponse>() {
             @Override
             public void onChanged(ProfileResponse response) {
                 if (response!=null) {
-                    profilename.setText(response.getData().get(0).getUsername());
-                    ecopoints.setText(response.getData().get(0).getEcoPoints() + "");
+                    profilename.setText("Welcome "+response.getData().get(0).getUsername()+" !");
+                    ecopoints.setText("Eco Points: "+response.getData().get(0).getEcoPoints());
+                    carbon.setText("Carbon Saved: "+response.getData().get(0).getCarbonSaved());
+                    calorie.setText("Calorie Burned: "+response.getData().get(0).getCaloriesBurned());
                 }
             }
         });

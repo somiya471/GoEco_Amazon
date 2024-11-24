@@ -191,19 +191,19 @@ public class ActivityTransitionReceiver extends BroadcastReceiver {
     private String getActivityName(int type) {
         switch (type) {
             case DetectedActivity.IN_VEHICLE:
-                return "car";
+                return "In Vehicle";
             case DetectedActivity.ON_BICYCLE:
-                return "cycling";
+                return "On Bicycle";
             case DetectedActivity.ON_FOOT:
                 return "On Foot";
             case DetectedActivity.RUNNING:
-                return "running";
+                return "Running";
             case DetectedActivity.STILL:
-                return "still";
+                return "Still";
             case DetectedActivity.TILTING:
                 return "Tilting";
             case DetectedActivity.WALKING:
-                return "walking";
+                return "Walking";
             case DetectedActivity.UNKNOWN:
                 return "Unknown";
             default:

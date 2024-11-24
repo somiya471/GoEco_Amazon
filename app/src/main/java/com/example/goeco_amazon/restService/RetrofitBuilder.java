@@ -23,7 +23,7 @@ public class RetrofitBuilder {
     private Retrofit retrofit;
 
     //TODO:TO ADD BASE URL
-    private final static String BASEURL = "http://192.168.133.127:3000/";
+    private final static String BASEURL = "https://mybackendtest.vercel.app/";
 
     private static RetrofitBuilder mInstance;
 

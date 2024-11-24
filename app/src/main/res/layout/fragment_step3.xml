@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:id="@+id/mode_method_layout"
     android:layout_margin="6dp"
+    android:backgroundTint="@color/white"
     tools:context=".fragments.Step3Fragment"
     android:orientation="vertical">
 

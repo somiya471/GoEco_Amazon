@@ -40,16 +40,19 @@ import com.example.goeco_amazon.adapters.MetricsRecyclerAdapter;
 import com.example.goeco_amazon.interfaces.MetricsCardOnClick;
 import com.example.goeco_amazon.models.ActivitySession;
 import com.example.goeco_amazon.models.ActivitySummary;
+import com.example.goeco_amazon.models.SoloMetricsData;
 import com.example.goeco_amazon.models.UpdateDelivery;
 import com.example.goeco_amazon.models.UpdateUser;
 import com.example.goeco_amazon.models.UserLogin;
 import com.example.goeco_amazon.responsemodels.LoginResponse;
 import com.example.goeco_amazon.responsemodels.MetricsData;
+import com.example.goeco_amazon.responsemodels.SoloMetricsResponse;
 import com.example.goeco_amazon.responsemodels.UpdateDeliveryResponse;
 import com.example.goeco_amazon.responsemodels.UpdateUserResponse;
 import com.example.goeco_amazon.utils.LoginManager;
 import com.example.goeco_amazon.viewmodels.GetMetricsViewModel;
 import com.example.goeco_amazon.viewmodels.LoginUserViewModel;
+import com.example.goeco_amazon.viewmodels.SoloMetricsViewModel;
 import com.example.goeco_amazon.viewmodels.UpdateDeliveryViewModel;
 import com.example.goeco_amazon.viewmodels.UserUpdateViewModel;
 import com.google.android.gms.location.ActivityRecognition;
@@ -78,7 +81,7 @@ public class MovementActivity extends AppCompatActivity {
     Button receiveButton;
     private TextView summaryTextView,userlocation,pickuplocation,distance;
     private Button startStopButton;
-    GetMetricsViewModel viewModel;
+    SoloMetricsViewModel viewModel;
 
     UserUpdateViewModel userUpdateViewModel;
     UpdateDeliveryViewModel updateDeliveryViewModel;
@@ -197,7 +200,6 @@ public class MovementActivity extends AppCompatActivity {
         lat = getIntent().getDoubleExtra("latitude",0.0);
         lon = getIntent().getDoubleExtra("longtitude",0.0);
         deliveryid = getIntent().getStringExtra("id");
-        pinCodeDisplay.setText("678123");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         // Request Location Permission
@@ -205,35 +207,35 @@ public class MovementActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
             getLocation();
-            distancecal = calculateDistance(loginManager.getLatitude(),loginManager.getLongitude(),lat,lon);
             userlocation.setText("User - Latitude: "+loginManager.getLatitude()+" Longitude: "+loginManager.getLongitude());
             pickuplocation.setText("Pickup - Latitude: "+lat+" Longitude: "+lon);
-            distance.setText("Distance: "+distancecal);
-            loginManager.setDistance(distancecal);
 
 
         }
         receiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel = new ViewModelProvider(MovementActivity.this).get(GetMetricsViewModel.class);
-                viewModel.getUserLiveData().observe(MovementActivity.this, new Observer<List<MetricsData>>() {
+                viewModel = new ViewModelProvider(MovementActivity.this).get(SoloMetricsViewModel.class);
+                viewModel.getUserLiveData().observe(MovementActivity.this, new Observer<SoloMetricsResponse>() {
                     @Override
-                    public void onChanged(List<MetricsData> response) {
+                    public void onChanged(SoloMetricsResponse response) {
                         if (response!=null) {
-                            String time = "";
-                            ecopoints = response.get(0).getEcoPoints();
-                            carbonsaved = response.get(0).getCarbon_saved();
-                            caloriesburned = response.get(0).getCalories_burned();
-                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                            btnupdate(timeFormat.format(new Date()),ecopoints,deliveryid,loginManager.getmode());
-                            btnuserupdate(loginManager.getid(),ecopoints,carbonsaved,caloriesburned);
+                                    ecopoints = response.getEcoPoints();
+                                    carbonsaved = response.getCarbon_saved();
+                                    caloriesburned = response.getCalories_burned();
+                                    distancecal = response.getDistance();
+                                    distance.setText("Distance: "+distancecal);
+                                    loginManager.setDistance(distancecal);
+                                    SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                                    btnupdate(timeFormat.format(new Date()),ecopoints,carbonsaved,caloriesburned,deliveryid,loginManager.getmode());
+                                    btnuserupdate(loginManager.getid(),ecopoints,carbonsaved,caloriesburned);
 
+                                }
 
-                        }
                     }
                 });
-                viewModel.metricsdata(MovementActivity.this.getApplication(),loginManager.getDistance(),loginManager.getWeight());
+                SoloMetricsData s = new SoloMetricsData(loginManager.getLatitude(),loginManager.getLongitude(),lat,lon,loginManager.getWeight(),loginManager.getmode());
+                viewModel.solometrics(MovementActivity.this.getApplication(),s);
 
 
             }
@@ -245,6 +247,7 @@ public class MovementActivity extends AppCompatActivity {
                 startTracking();
             } else {
                 stopTracking();
+                pinCodeDisplay.setText("678123");
             }
         });
 
@@ -259,16 +262,7 @@ public class MovementActivity extends AppCompatActivity {
             return insets;
         });
     }
-        public double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-            final int R = 6371; // Radius of the Earth in kilometers
-            double dLat = Math.toRadians(lat2 - lat1);
-            double dLon = Math.toRadians(lon2 - lon1);
-            double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                    Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                            Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            double c = 2 * Math.asin(Math.sqrt(a));
-            return R * c; // Distance in kilometers
-        }
+
 
     private void getLocation() {
         try {
@@ -385,9 +379,9 @@ public class MovementActivity extends AppCompatActivity {
             handleActivityRecognitionError(e);
         }
     }
-    private void btnupdate(String receivetime,int ecopoints, String id,String mode) {
+    private void btnupdate(String receivetime,int ecopoints, double carbonsaved,double caloriesburned,String id,String mode) {
 
-        UpdateDelivery user = new UpdateDelivery("delivered",receivetime,ecopoints,mode);
+        UpdateDelivery user = new UpdateDelivery("delivered",receivetime,ecopoints,carbonsaved,caloriesburned,mode);
         initViewModel();
         updateDeliveryViewModel.updatedelivery(this.getApplication(),user,id);
     }

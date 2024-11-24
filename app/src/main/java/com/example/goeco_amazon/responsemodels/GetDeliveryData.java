@@ -16,11 +16,13 @@ public class GetDeliveryData {
     private String delivery_status;
     private ModelUser user;
     private int ecoPoints;
+    private double carbonSaved;
+    private int caloriesBurned;
     private String createdAt;
     private String updatedAt;
     private int __v;
 
-    public GetDeliveryData(String _id, ProductModel product, int quantity, String delivery_date, String time_slot, String mode_of_transport, ModelPickup delivery_address, String recieve_time, String delivery_status, ModelUser user, int ecoPoints, String createdAt, String updatedAt, int __v) {
+    public GetDeliveryData(String _id, ProductModel product, int quantity, String delivery_date, String time_slot, String mode_of_transport, ModelPickup delivery_address, String recieve_time, String delivery_status, ModelUser user, int ecoPoints, double carbonSaved, int caloriesBurned, String createdAt, String updatedAt, int __v) {
         this._id = _id;
         this.product = product;
         this.quantity = quantity;
@@ -32,6 +34,8 @@ public class GetDeliveryData {
         this.delivery_status = delivery_status;
         this.user = user;
         this.ecoPoints = ecoPoints;
+        this.carbonSaved = carbonSaved;
+        this.caloriesBurned = caloriesBurned;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.__v = __v;
@@ -123,6 +127,22 @@ public class GetDeliveryData {
 
     public void setEcoPoints(int ecoPoints) {
         this.ecoPoints = ecoPoints;
+    }
+
+    public double getCarbonSaved() {
+        return carbonSaved;
+    }
+
+    public void setCarbonSaved(double carbonSaved) {
+        this.carbonSaved = carbonSaved;
+    }
+
+    public int getCaloriesBurned() {
+        return caloriesBurned;
+    }
+
+    public void setCaloriesBurned(int caloriesBurned) {
+        this.caloriesBurned = caloriesBurned;
     }
 
     public String getCreatedAt() {

@@ -17,6 +17,7 @@ import com.example.goeco_amazon.responsemodels.NearbyPickupResponse;
 import com.example.goeco_amazon.responsemodels.ProductResponse;
 import com.example.goeco_amazon.responsemodels.ProfileResponse;
 import com.example.goeco_amazon.responsemodels.RegisterResponse;
+import com.example.goeco_amazon.responsemodels.SoloMetricsResponse;
 import com.example.goeco_amazon.responsemodels.UpdateDeliveryResponse;
 import com.example.goeco_amazon.responsemodels.UpdateUserResponse;
 
@@ -55,6 +56,8 @@ public interface ApiInterface {
     @GET("leaderboard")
     Call<GetLeaderboardResponse> getleaderboard(@Query("userId") String userId);
 
+    @GET("solo/getmetrics")
+    Call<SoloMetricsResponse> getsolometrics(@Query("lat") double lat, @Query("lon") double lon, @Query("lat1") double lat1, @Query("lon1") double lon1, @Query("userWeight") int userWeight, @Query("mode_of_transport") String mode_of_transport);
 
     @PUT("delivery/{deliveryid}")
     Call<UpdateDeliveryResponse> updatedelivery(@Path("deliveryid") String deliveryid,@Body UpdateDelivery updateDelivery);
