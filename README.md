@@ -56,16 +56,16 @@ The application consists of three main components:
 
 ## Installation
 
-# Clone the repository
+### Clone the repository
 git clone 
 
-# Navigate to the project directory
+### Navigate to the project directory
 cd backend
 
-# Install dependencies
+### Install dependencies
 npm install
 
-# Run the app
+### Run the app
 npm run start
 
  ### Running the Backend Server
