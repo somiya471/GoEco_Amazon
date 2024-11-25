@@ -48,7 +48,6 @@ The application consists of three main components:
 ### Backend
 - Node.js
 - Express.js
-- Carbon Footprint API Integration
 
 ### Database
 - MongoDB
